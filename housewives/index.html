@@ -99,9 +99,10 @@ button { margin-top:20px;}
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-  <script src="js/html2canvas.js"></script>
+  <!--<script src="js/html2canvas.js"></script>-->
 
   <script>
+    $("#reload").on('click', function() { window.location.reload(); })
     var source = _.sample([BHQUOTES, NYQUOTES, ATLQUOTES],1)[0]
     var filtered = _.filter(source, function(q) { 
       var parts = q.split(':');
@@ -127,7 +128,6 @@ button { margin-top:20px;}
       var usvthem = parts[0] == me ? 'me' : 'them';
       $("#dialogue").append("<div style='clear:both'><div><span class='name " + usvthem + "'>" + parts[0] + "</span></div><p class='" + usvthem + "'>" + parts[1].toLowerCase() + "</p></div>")
     }
-    $("#reload").on('click', function() { window.location.reload(); })
   </script>
 </body>
 </html>
