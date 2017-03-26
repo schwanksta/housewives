@@ -120,14 +120,7 @@ button { margin-top:20px;}
       var parts = q.split(':');
       return parts.length > 1 && parts[0].split(' ').length <= 2 && parts[0].indexOf('RHO') == -1 && parts[0].indexOf('Poll') == -1 && parts[0].indexOf('Spoiler') == -1;
     });
-    var mapped = _.reduce(filtered, function(memo, q) {
-      var parts = q.split(':');
-      if(memo.hasOwnProperty(parts[0]))
-        memo[parts[0]] = parts[1]
-      else
-        memo[parts[0]] = [parts[1]]
-      return memo
-    }, {});
+    
     var questions = _.filter(filtered, function(q) { return q.indexOf('?') > -1 });
 
     //console.log(questions)
