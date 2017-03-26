@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Waiting for Dorito: Texts from Bravo blog headlines</title>
+  <meta name="description" content="Housewife dialogue assembled from Bravo blog headlines">
+  <meta name="author" content="Ken Schwencke">
+  <meta property="og:image" content="images/promo.png" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="js/quotes.js"></script>
+  <style>
+    .container { padding:20px;}
+    #dialogue p { font-size: 20px;}
+    .name { padding-left:10px; color: #aaa;}
+    .name.me { padding-right:10px; float:right;}
+blockquote {
+  margin: 0 auto;
+  max-width: 320px;
+}
+p {
+  font-family: 'Arial';
+  margin: 0 0 0.5em;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  background: #e5e5ea;
+  max-width: 75%;
+  clear: both;
+  position: relative;
+}
+p.them {
+  float: left;
+}
+p.them::after {
+  content: "";
+  position: absolute;
+  left: -0.5em;
+  bottom: 0;
+  width: 0.5em;
+  height: 1em;
+  border-right: 0.5em solid #e5e5ea;
+  border-bottom-right-radius: 1em 0.5em;
+}
+p.me {
+  float: right;
+  background-color: #1289fe;
+  color: white;
+}
+p.me::after {
+  content: "";
+  position: absolute;
+  right: -0.5em;
+  bottom: 0;
+  width: 0.5em;
+  height: 1em;
+  border-left: 0.5em solid #1289fe;
+  border-bottom-left-radius: 1em 0.5em;
+}
+button { margin-top:20px;}
+  </style>
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <h1>Waiting for Dorito</h2>
+      <h4>Housewife dialogue assembled from Bravo blog headlines</h4>
+    </div>
+    <div class="row">
+      <blockquote id="dialogue" class="one-half column" style="margin-top: 5%">
+      </blockquote>
+    </div>
+    <div class="row">
+      <button id="reload">Take another spin 🔄</button>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script src="js/html2canvas.js"></script>
+
+  <script>
+    var source = _.sample([BHQUOTES, NYQUOTES, ATLQUOTES],1)[0]
+    var filtered = _.filter(source, function(q) { 
+      var parts = q.split(':');
+      return parts.length > 1 && parts[0].split(' ').length <= 2 && parts[0].indexOf('RHO') == -1 && parts[0].indexOf('Poll') == -1 && parts[0].indexOf('Spoiler') == -1;
+    });
+    var mapped = _.reduce(filtered, function(memo, q) {
+      var parts = q.split(':');
+      if(memo.hasOwnProperty(parts[0]))
+        memo[parts[0]] = parts[1]
+      else
+        memo[parts[0]] = [parts[1]]
+      return memo
+    }, {});
+    var questions = _.filter(filtered, function(q) { return q.indexOf('?') > -1 });
+
+    //console.log(questions)
+    var question = _.sample(questions, 1)
+    var responses = _.sample(filtered, 3)
+    var sample = _.shuffle(question.concat(responses))
+    var me = _.sample(sample,1)[0].split(':')[0]
+    for(var i=0; i<4; i++) {
+      var parts = sample[i].split(':');
+      var usvthem = parts[0] == me ? 'me' : 'them';
+      $("#dialogue").append("<div style='clear:both'><div><span class='name " + usvthem + "'>" + parts[0] + "</span></div><p class='" + usvthem + "'>" + parts[1].toLowerCase() + "</p></div>")
+    }
+    $("#reload").on('click', function() { window.location.reload(); })
+  </script>
+</body>
+</html>
